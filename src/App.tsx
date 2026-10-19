@@ -146,11 +146,9 @@ function Login({ config, onLogin }: { config: Config; onLogin: (user: User) => v
             <div className="demo-notice">
               <Info size={17} />
               <span>
-                {config.preview
-                  ? 'พรีวิวสำหรับทีม · ใช้ชื่อทดลองได้เลย'
-                  : 'เดโมในเครื่อง · ใช้ชื่อทดลองได้เลย'}
+                เข้าใช้งานได้เลยด้วยชื่อที่ต้องการ
                 <br />
-                <small>บัญชีบริษัทจะเชื่อมในขั้นเปิดใช้งานจริง</small>
+                <small>พื้นที่นี้เปิดให้ผู้ใช้ทั่วไปเข้าใช้งาน</small>
               </span>
             </div>
           )}
@@ -174,7 +172,7 @@ function Login({ config, onLogin }: { config: Config; onLogin: (user: User) => v
                   <LoaderCircle className="spin" size={18} />
                 ) : (
                   <>
-                    เข้า{invite ? 'ห้องประชุม' : 'ออฟฟิศทดลอง'}
+                    เข้า{invite ? 'ห้องประชุม' : 'ออฟฟิศ'}
                     <ArrowRight size={18} />
                   </>
                 )}
@@ -770,7 +768,7 @@ function Office({ config, user, onLogout }: { config: Config; user: User; onLogo
           {config.demo && (
             <div className="local-badge">
               <span />
-              {config.preview ? 'พรีวิวสำหรับทีม' : 'เดโมในเครื่อง'}
+              {config.preview ? 'พรีวิวสำหรับทีม' : 'เข้าใช้ฟรี'}
             </div>
           )}
           {!connected && (
@@ -1369,12 +1367,12 @@ function Office({ config, user, onLogout }: { config: Config; user: User; onLogo
                   config.preview
                     ? 'พรีวิวสำหรับทีม'
                     : config.demo
-                      ? 'เดโมในเครื่อง'
+                      ? 'เข้าใช้ฟรีด้วยชื่อผู้ใช้'
                       : 'สำนักงานองค์กร',
                 ],
                 [
                   'บัญชีบริษัท',
-                  config.providers.length ? config.providers.join(' / ') : 'รอเชื่อมบัญชีองค์กร',
+                  config.providers.length ? config.providers.join(' / ') : 'เข้าใช้ฟรีด้วยชื่อผู้ใช้',
                 ],
                 [
                   'เสียง วิดีโอ แชร์หน้าจอ',
