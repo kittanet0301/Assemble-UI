@@ -69,6 +69,7 @@ export default async function handler(request, response) {
     if (typeof value === 'string') headers.set(name, value);
     else if (Array.isArray(value)) headers.set(name, value.join(', '));
   }
+  headers.set('ngrok-skip-browser-warning', '1');
   headers.set('x-forwarded-host', request.headers.host ?? '');
   headers.set('x-forwarded-proto', 'https');
 
