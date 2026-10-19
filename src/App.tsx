@@ -290,8 +290,7 @@ function Office({ config, user, onLogout }: { config: Config; user: User; onLogo
     [statusOpen, setStatusOpen] = useState(false),
     [reactionOpen, setReactionOpen] = useState(false),
     [reactions, setReactions] = useState<Record<string, string>>({}),
-    [toast, setToast] = useState(''),
-    [confirmRevoke, setConfirmRevoke] = useState<User | null>(null);
+    [toast, setToast] = useState('');
   const ws = useRef<WebSocket | null>(null),
     chatRef = useRef<HTMLDivElement>(null),
     chatOpenRef = useRef(chatOpen),
@@ -1292,14 +1291,12 @@ function Office({ config, user, onLogout }: { config: Config; user: User; onLogo
           wide
           onClose={() => {
             setModal(null);
-            setConfirmRevoke(null);
           }}
         >
           <div className="settings-tabs">
             {[
               ['profile', 'โปรไฟล์'],
               ['office', 'สำนักงาน'],
-              ...(user.role === 'admin' ? [['admin', 'ดูแลสมาชิก']] : []),
             ].map(([id, label]) => (
               <button
                 key={id}
@@ -1321,11 +1318,7 @@ function Office({ config, user, onLogout }: { config: Config; user: User; onLogo
                       (user.role === 'guest' ? 'ผู้เยี่ยมชมที่ได้รับเชิญ' : 'บัญชีทดลองในเครื่อง')}
                   </p>
                   <span className="role-badge">
-                    {user.role === 'admin'
-                      ? 'ผู้ดูแลสำนักงาน'
-                      : user.role === 'guest'
-                        ? 'ผู้เยี่ยมชม'
-                        : 'สมาชิกองค์กร'}
+                    {user.role === 'guest' ? 'ผู้เยี่ยมชม' : 'สมาชิกองค์กร'}
                   </span>
                 </div>
               </div>
@@ -1397,52 +1390,6 @@ function Office({ config, user, onLogout }: { config: Config; user: User; onLogo
                   <strong>{value}</strong>
                 </div>
               ))}
-            </>
-          )}
-          {settingsTab === 'admin' && (
-            <>
-              <p className="dialog-description">
-                ผู้ดูแลถอนสิทธิ์สมาชิกได้ เซสชันและคำเชิญที่สร้างโดยสมาชิกนั้นจะถูกยกเลิก
-              </p>
-              {snapshot.directory.map((m) => (
-                <div className="admin-member" key={m.id}>
-                  <Avatar appearance={m.appearance} seed={m.id} size={34} />
-                  <span>
-                    <strong>{m.name}</strong>
-                    <small>{m.email || 'บัญชีทดลอง'}</small>
-                  </span>
-                  {m.id !== user.id && (
-                    <button className="danger-text" onClick={() => setConfirmRevoke(m)}>
-                      ถอนสิทธิ์
-                    </button>
-                  )}
-                  {m.id === user.id && <span className="role-badge">คุณ</span>}
-                </div>
-              ))}
-              {confirmRevoke && (
-                <div className="confirm-revoke">
-                  <p>
-                    ถอนสิทธิ์ <strong>{confirmRevoke.name}</strong> จากสำนักงาน?
-                  </p>
-                  <button className="secondary" onClick={() => setConfirmRevoke(null)}>
-                    กลับ
-                  </button>
-                  <button
-                    className="danger"
-                    onClick={async () => {
-                      try {
-                        await api(`/api/members/${confirmRevoke.id}/revoke`, {});
-                        setConfirmRevoke(null);
-                        notify('ถอนสิทธิ์สมาชิกแล้ว');
-                      } catch (e) {
-                        notify((e as Error).message);
-                      }
-                    }}
-                  >
-                    ยืนยันถอนสิทธิ์
-                  </button>
-                </div>
-              )}
             </>
           )}
         </Dialog>

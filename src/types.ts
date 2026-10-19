@@ -13,7 +13,7 @@ export type Appearance = LegacyAppearance | ZepAppearance;
 export type User = {
   id: string;
   name: string;
-  role: 'admin' | 'member' | 'guest';
+  role: 'member' | 'guest';
   avatar: string;
   appearance?: Appearance;
   status: Status;
